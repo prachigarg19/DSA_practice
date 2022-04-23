@@ -15,13 +15,8 @@
  */
 class Solution {
     public boolean isBalanced(TreeNode root) {
-        if(root==null) return true;
-        int lh=calcheight(root.left);
-        int rh=calcheight(root.right);
-        boolean left=isBalanced(root.left);
-        boolean right=isBalanced(root.right);
-        if(left==false||right==false) return false;
-        return Math.abs(lh-rh)<=1?true:false;
+       
+        return (calcheight(root)==-1?false:true);
     }
     
     public int calcheight(TreeNode root)
@@ -29,7 +24,8 @@ class Solution {
         if(root==null) return 0;
         int lh=calcheight(root.left);
         int rh=calcheight(root.right);
-        // ans==false?false:(Ma/th.abs(lh-rh)<=1?true:false);
+        if(lh==-1||rh==-1) return -1;
+        if(Math.abs(lh-rh)>1) return -1;
         return 1+Math.max(lh,rh);
     }
 }
