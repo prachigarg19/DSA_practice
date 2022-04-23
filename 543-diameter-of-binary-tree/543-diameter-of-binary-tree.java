@@ -15,24 +15,18 @@
  */
 class Solution {
     public int diameterOfBinaryTree(TreeNode root) {
+        int ans[]=new int[1];
+        cal(root,ans);
+        return ans[0];
+    }
+    
+    public int cal(TreeNode root,int[] ans)
+    {
+        if(root==null) return 0;
+        int lh=cal(root.left,ans);
+        int rh=cal(root.right,ans);
+        ans[0]=Math.max(ans[0],lh+rh);
         
-       return cal(root,0);
-    }
-    public int calcheight(TreeNode root)
-    {
-        if(root==null) return 0;
-        int lh=calcheight(root.left);
-        int rh=calcheight(root.right);
         return 1+Math.max(lh,rh);
-    }
-    public int cal(TreeNode root,int val)
-    {
-        if(root==null) return 0;
-        int lh=calcheight(root.left);
-        int rh=calcheight(root.right);
-        val=Math.max(val,lh+rh);
-        int left=cal(root.left,val);
-        int right=cal(root.right,val);
-        return Math.max(val,Math.max(left,right));
     }
 }
