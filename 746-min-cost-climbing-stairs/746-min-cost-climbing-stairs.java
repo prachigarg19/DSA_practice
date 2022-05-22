@@ -2,16 +2,13 @@ class Solution {
     int[] dp;
     public int minCostClimbingStairs(int[] cost) {
         dp=new int[cost.length+2];
-//         int dp[] = new int[cost.length+1];
-//         dp[cost.length-1]=cost[cost.length-1];
-//         int ans = Integer.MAX_VALUE;
-//         for(int i=cost.length-2;i>=0;i--){
-            
-//             dp[i]=Math.min(dp[i+1],dp[i+2])+cost[i];
-            
-//             ans=Math.min(ans,dp[i]);
-//         }
-//        return ans; 
+        
+        // 0 10 15 20 ( 0 + 1 jump gives 0+rec(10))
+        // 0 10 15 20 ( 0 + 2 jumps gives 0+rec(15))
+        // final answer returned = min( 0 +rec(10), 0 +rec(15))
+        
+        //O(1) time-> append 0 at last and start from last index
+        
         int[] cost2=new int[cost.length+1];
         cost2[0]=0;
         for(int i=0;i<cost.length;i++)
