@@ -2,20 +2,19 @@ class Solution {
     int[] dp;
 
     public int rob(int[] nums) {
-        dp = new int[nums.length + 1];
-        Arrays.fill(dp,-1);
-        return per(nums, 0);
-    }
+        dp = new int[nums.length + 3];
+        Arrays.fill(dp, 0);
 
-    public int per(int[] nums, int i) {
-        if (i >= nums.length) {
-            return 0;
+        for (int i = nums.length ; i >= 0; i--) {
+            if (i == nums.length) {
+                dp[i] = 0;
+                continue;
+            }
+            if (dp[i] != 0) continue;
+
+            dp[i] = Math.max(dp[i + 2] + nums[i], dp[i + 1]); 
+            
         }
-        if (dp[i] != -1) return dp[i];
-
-        int inc = per(nums, i + 2);
-        int exc = per(nums, i + 1);
-
-        return dp[i] = Math.max(inc + nums[i], exc);
+        return dp[0];
     }
 }
