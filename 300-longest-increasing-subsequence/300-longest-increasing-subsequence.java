@@ -1,21 +1,18 @@
 class Solution {
-    int[][] dp;
-
+    int[] dp;
+    //space optimised
     public int lengthOfLIS(int[] nums) {
-        dp = new int[nums.length + 1][nums.length + 1];
-        for (int[] i : dp) Arrays.fill(i, -1);
-        return per(nums, 0, -1);
-    }
-
-    public int per(int[] nums, int i, int pi) {
-        if (i >= nums.length) 
-            return 0;
-        if (pi != -1 && dp[i][pi] != -1) return dp[i][pi];
-        int inc = 0;
-        if (pi == -1 || nums[i] > nums[pi]) inc = per(nums, i + 1, i) + 1;
-        int exc = per(nums, i + 1, pi);
-        
-        if(pi!=-1) dp[i][pi] = Math.max(inc, exc);
-        return Math.max(inc, exc);
+        dp = new int[nums.length + 1];
+        Arrays.fill(dp,1);
+        for(int i=0;i<nums.length;i++){
+            for(int j=0;j<i;j++){
+                if(nums[i]>nums[j])
+                    dp[i]=Math.max(dp[i],dp[j]+1);
+            }
+        }
+        int ans=-1;
+        for(int i:dp)
+            ans=Math.max(i,ans);
+        return ans;
     }
 }
