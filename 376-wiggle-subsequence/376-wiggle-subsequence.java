@@ -1,20 +1,32 @@
 class Solution {
     int[] dp;
     public int wiggleMaxLength(int[] nums) {
-         dp=new int[nums.length];
-        Arrays.fill(dp,-1);
-        return find(nums, 0, -1, -1001);
+        int[] up=new int[nums.length];
+        int[] down=new int[nums.length];
+        up[0]=1;down[0]=1;
+        //we are taking first element as the next element decides wether it'll be positive curve or negative curve
+        for(int i=1;i<nums.length;i++){
+            if(nums[i]>nums[i-1])
+            {   
+                //adding current element to the already exisiting down end wiggle
+                up[i]=down[i-1]+1;
+                down[i]=down[i-1];
+                
+            }
+            else if(nums[i]<nums[i-1])
+            {
+                down[i]=up[i-1]+1;
+                up[i]=up[i-1];
+            }
+            else{
+                //continuinh as it for equal element
+                up[i]=up[i-1];
+                down[i]=down[i-1];
+            }
+        }
+        //max because the sequence could end in up wiggle or down wiggle and we need the maximum.
+        return Math.max(up[nums.length-1],down[nums.length-1]);
     }
 
-    public int find(int[] nums, int ind, int previ, int prevs) {
-        if (ind >= nums.length) return 0;
-        if (prevs != -1001 && prevs * (nums[ind] - nums[previ]) > 0) return 0;
-        if( previ != -1 && nums[ind] == nums[previ]) return 0;
-        if(dp[ind]!=-1) return dp[ind];
-        int inc = 0, exc = 0;
-        if (previ == -1) inc = find(nums, ind + 1, ind, prevs); 
-        else inc = find(nums, ind + 1, ind, nums[ind] - nums[previ]);
-        exc = find(nums, ind + 1, previ, prevs);
-        return dp[ind]=Math.max(inc+1, exc);
-    }
+   
 }
