@@ -15,17 +15,21 @@
  */
 class Solution {
     public boolean isBalanced(TreeNode root) {
-       
-        return (calcheight(root)==-1?false:true);
+        if(root==null)
+            return true;
+        int hl= height(root.left);
+        int hr= height(root.right);
+        
+        boolean bl = isBalanced(root.left);
+        boolean br = isBalanced(root.right);
+        
+        if(bl && br && Math.abs(hl-hr)<=1)
+            return true;
+        return false;
     }
-    
-    public int calcheight(TreeNode root)
-    {
+    public int height( TreeNode root){
         if(root==null) return 0;
-        int lh=calcheight(root.left);
-        int rh=calcheight(root.right);
-        if(lh==-1||rh==-1) return -1;
-        if(Math.abs(lh-rh)>1) return -1;
-        return 1+Math.max(lh,rh);
+        
+        return Math.max(height(root.left),height(root.right))+1;
     }
 }
