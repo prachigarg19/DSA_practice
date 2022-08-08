@@ -14,30 +14,13 @@
  * }
  */
 class Solution {
-    Stack<TreeNode> st;
-
     public boolean isValidBST(TreeNode root) {
-        st = new Stack<>();
-        if (root.left == null && root.right == null) return true;
-        per(root);
-        int val = st.pop().val;
-        while (!st.isEmpty()) {
-            if (val <= st.peek().val) return false;
-            val = st.pop().val;
-        }
-        return true;
+        return solve(root, Long.MIN_VALUE ,Long.MAX_VALUE);
     }
-
-    public TreeNode per(TreeNode root) {
-        if (root == null) return null;
-
-        TreeNode left = per(root.left);
-
-        st.push(root);
-
-        TreeNode right = per(root.right);
-        
-        
-        return root;
+    public boolean solve( TreeNode root, long min, long max){
+        if(root==null) return true;
+        if(root.val>=max || root.val<=min)
+            return false;
+        return solve(root.left, min, root.val ) && solve(root.right, root.val, max);
     }
 }
