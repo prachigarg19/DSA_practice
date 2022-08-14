@@ -1,18 +1,27 @@
 class Solution {
+
     public String smallestNumber(String pattern) {
-        String ans="";
-        StringBuilder temp=new StringBuilder();
-        for(int i=1;i<=pattern.length()+1;i++)
-            temp.append(i);
-        for(int i=0;i<pattern.length();i++){
-            if(pattern.charAt(i)=='I') continue;
-            int start=i;
-            while(i<pattern.length() && pattern.charAt(i) == 'D'){
-                i++;
+        Stack<Character> st = new Stack<>();
+        Stack<Character> temp = new Stack<>();
+        StringBuilder str = new StringBuilder();
+        for (int i = 1; i <= pattern.length() + 1; i++) str.append(i);
+
+        for (int i = 0; i < pattern.length(); i++) {
+            if (pattern.charAt(i) == 'I') st.push(str.charAt(i)); else {
+                temp.push(str.charAt(i));
+                while (i < pattern.length() && pattern.charAt(i) == 'D') {
+                    i++;
+                    temp.push(str.charAt(i));
+                }
+                while (!temp.isEmpty()) {
+                    st.push(temp.pop());
+                }
             }
-            StringBuilder temp2=new StringBuilder(temp.substring(start,i+1));
-            temp.replace(start,i+1,temp2.reverse().toString());
         }
-        return temp.toString();
+        if(pattern.charAt(pattern.length()-1)=='I')
+            st.push(str.charAt(str.length()-1));
+        StringBuilder ans = new StringBuilder();
+        while (!st.isEmpty()) ans.append(st.pop());
+        return ans.reverse().toString();
     }
 }
